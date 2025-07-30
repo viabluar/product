@@ -26,7 +26,7 @@ jobs:
         java-version: '17'
       
     - name: Cache Maven dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with: 
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -97,14 +97,14 @@ jobs:
           java-version: 17
 
       - name: Cache SonarQube packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: '${{ runner.os }}-sonar'
           restore-keys: '${{ runner.os }}-sonar'
 
       - name: Cache Maven packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.m2
           key: '${{ runner.os }}-m2-${{ hashFiles(''**/pom.xml'') }}'
@@ -114,11 +114,11 @@ jobs:
         #uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
-          SONAR_HOST_URL: '${{ secrets.SONAR_HOST_URL }}'
+          SONAR_HOST_URL: '${{ vars.SONAR_HOST_URL }}'
         run: >-
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.projectKey=producto-service
-          -Dsonar.projectName='producto-service'
+         mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+         -Dsonar.projectKey=product_microservice
+         -Dsonar.projectName='product_microservice'
 
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
@@ -130,7 +130,7 @@ jobs:
         timeout-minutes: 1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} #OPTIONAL
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }} #OPTIONAL
           SET_SONAR_PROJECT_STATUS: true 
     #  # Optionally you can use the output from the Quality Gate in another step.
     #  # The possible outputs of the `quality-gate-status` variable are `PASSED`, `WARN` or `FAILED`.
@@ -141,11 +141,11 @@ jobs:
 
    # llama publish jar
 
-      - name: trigger deploy artifact
-        if: success()
-        uses: peter-evans/repository-dispatch@v2
-        with:
-            token: ${{ secrets.TOKEN }}
-            repository: ${{ github.repository }}
-            event-type: publish-artifact-event
-            client-payload: '{ "base_branch": "${{ github.base_ref }}" }'
+   #   - name: trigger deploy artifact
+   #     if: success()
+   #     uses: peter-evans/repository-dispatch@v2
+   #     with:
+   #         token: ${{ secrets.TOKEN }}
+   #         repository: ${{ github.repository }}
+   #         event-type: publish-artifact-event
+   #         client-payload: '{ "base_branch": "${{ github.base_ref }}" }'
