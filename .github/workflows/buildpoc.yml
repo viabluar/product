@@ -116,7 +116,11 @@ jobs:
           SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
           SONAR_HOST_URL: '${{ secrets.SONAR_HOST_URL }}'
         run: >-
-           mvn sonar:sonar -Dsonar.host.url=SONAR_HOST_URL  -Dsonar.login=SONAR_TOKEN
+#          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+#              -Dsonar.projectKey=product_microservice
+         mvn sonar:sonar -Dsonar.host.url=https://c2ae1f4b4d55.ngrok.app/  -Dsonar.login=sqa_b96ea1939176956df34344e8cd727618acca0c14
+
+
 
 #     #mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
 #       -Dsonar.projectKey=product_microservice
@@ -143,11 +147,11 @@ jobs:
 
    # llama publish jar
 
-      - name: trigger deploy artifact
-        if: success()
-        uses: peter-evans/repository-dispatch@v2
-        with:
-            token: ${{ secrets.TOKEN }}
-            repository: ${{ github.repository }}
-            event-type: publish-artifact-event
-            client-payload: '{ "base_branch": "${{ github.base_ref }}" }'
+   #   - name: trigger deploy artifact
+   #     if: success()
+   #     uses: peter-evans/repository-dispatch@v2
+   #     with:
+   #         token: ${{ secrets.TOKEN }}
+   #         repository: ${{ github.repository }}
+   #         event-type: publish-artifact-event
+   #         client-payload: '{ "base_branch": "${{ github.base_ref }}" }'
