@@ -114,17 +114,11 @@ jobs:
         #uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
-          SONAR_HOST_URL: '${{ secrets.SONAR_HOST_URL }}'
+          SONAR_HOST_URL: '${{ vars.SONAR_HOST_URL }}'
         run: >-
-#          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-#              -Dsonar.projectKey=product_microservice
-         mvn sonar:sonar -Dsonar.host.url=https://c2ae1f4b4d55.ngrok.app/  -Dsonar.login=sqa_b96ea1939176956df34344e8cd727618acca0c14
-
-
-
-#     #mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-#       -Dsonar.projectKey=product_microservice
-#       -Dsonar.projectName='Producto'
+         mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+         -Dsonar.projectKey=product_microservice
+         -Dsonar.projectName='product_microservice'
 
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
