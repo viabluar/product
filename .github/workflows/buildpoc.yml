@@ -117,8 +117,8 @@ jobs:
           SONAR_HOST_URL: '${{ secrets.SONAR_HOST_URL }}'
         run: >-
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.projectKey=producto-service
-          -Dsonar.projectName='producto-service'
+          -Dsonar.projectKey=product_microservice
+          -Dsonar.projectName='Producto'
 
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
