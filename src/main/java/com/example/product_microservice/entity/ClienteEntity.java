@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Document(value="proveedor")
+@Document(value="cliente")
 @Getter
 @Setter
 @NoArgsConstructor
